@@ -1,0 +1,81 @@
+﻿@model IEnumerable<DIARS_S8.Models.Cliente>
+@{
+	ViewData["Title"] = "Clientes";
+}
+<h2>@ViewData["Title"]</h2>
+<!-- Formulario para Filtrar Clientes -->
+<form asp-action="Index" method="get" class="mb-4">
+	<div class="row g-3 align-items-center">
+		<!-- Tipo de filtro -->
+		<div class="col-auto">
+			<label for="tipoFiltro" class="form-label">Filtrar por</label>
+			<select name="tipoFiltro" id="tipoFiltro" class="form-select">
+				<option value="Todos">Todos</option>
+				<option value="Ciudad">Ciudad</option>
+				<option value="Estado">Estado</option>
+			</select>
+		</div>
+		<!-- Filtro por Ciudad -->
+		<div class="col-auto">
+			<label for="ciudad" class="form-label">Ciudad</label>
+			<input type="text" name="ciudad" id="ciudad" class="form-control" />
+		</div>
+		<!-- Filtro por Estado -->
+		<div class="col-auto">
+			<label for="estado" class="form-label">Estado</label>
+			<select name="estado" id="estado" class="form-select">
+				<option value="">-- Seleccionar Estado --</option>
+				<option value="1">Activo</option>
+				<option value="0">Inactivo</option>
+			</select>
+		</div>
+		<!-- Botón -->
+		<div class="col-auto">
+			<button type="submit" class="btn btn-primary mt-4">Buscar</button>
+		</div>
+	</div>
+</form>
+<br />
+<!-- Tabla de resultados -->
+<table class="table table-bordered table-striped">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Razón Social</th>
+			<th>Dirección</th>
+			<th>Ciudad</th>
+			<th>Tipo Cliente</th>
+			<th>Activo</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var cliente in Model)
+		{
+			<tr>
+				<td>@cliente.IdCliente</td>
+				<td>@cliente.RazonSocial</td>
+				<td>@cliente.Direccion</td>
+				<td>@cliente.Ciudad</td>
+				<td>@cliente.IdTipoCliente</td>
+				<td>@(cliente.EstCliente == 1 ? "Activo" : "Inactivo")</td>
+			</tr>
+		}
+	</tbody>
+</table>
+@section Scripts {
+	<script>
+		document.addEventListener("DOMContentLoaded", function () {
+		const tipoFiltro = document.getElementById("tipoFiltro");
+		const ciudadInput = document.getElementById("ciudad");
+		const estadoSelect = document.getElementById("estado");
+		function actualizarCampos() {
+		const filtroSeleccionado = tipoFiltro.value;
+		ciudadInput.disabled = filtroSeleccionado !== "Ciudad";
+		estadoSelect.disabled = filtroSeleccionado !== "Estado";
+		}
+		tipoFiltro.addEventListener("change", actualizarCampos);
+		// Inicializa estado de los campos al cargar
+		actualizarCampos();
+		});
+	</script>
+}
