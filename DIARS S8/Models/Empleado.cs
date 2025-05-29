@@ -1,8 +1,9 @@
-﻿using System;
-using DIARS_S8.Models;
+﻿using DIARS_S8.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using static DIARS_S8.Models.Usuario;
 
 namespace DIARS_S8.Models
 {
@@ -10,39 +11,31 @@ namespace DIARS_S8.Models
     public class Empleado
     {
         [Key]
-        [Column("empleado_id")]
         public int EmpleadoId { get; set; }
 
-        [Required]
-        [Column("usuario_id")]
-        public int UsuarioId { get; set; }
+        [ForeignKey("Cargo")]
+        public int CargoId { get; set; }
+        public Cargo Cargo { get; set; }
 
-        [ForeignKey(nameof(UsuarioId))]
-        public Usuario Usuario { get; set; }
-
-        [Required]
-        [Column("nombres")]
-        [StringLength(100)]
+        [Required, StringLength(100)]
         public string Nombres { get; set; }
 
-        [Required]
-        [Column("dni")]
-        [StringLength(15)]
+        [Required, StringLength(15)]
         public string Dni { get; set; }
 
-        [Column("telefono")]
         [StringLength(20)]
         public string Telefono { get; set; }
 
-        [Required]
-        [Column("cargo")]
-        [StringLength(50)]
-        public string Cargo { get; set; }
+        [StringLength(20)]
+        public string Correo { get; set; }
 
-        [Column("fecha_contrato")]
-        public DateTime FechaContrato { get; set; }
+        [Required, StringLength(50)]
+        public string CargoNombre { get; set; } // Nombre del cargo (redundante)
 
-        public ICollection<Contrato> Contratos { get; set; } = new List<Contrato>();
-        public ICollection<PedidoInstalacion> PedidosInstalacion { get; set; } = new List<PedidoInstalacion>();
+        [Required, StringLength(16)]
+        public string Password { get; set; }
+
+        public DateTime? FechaInicio { get; set; }
+        public DateTime? FechaFin { get; set; }
     }
 }
