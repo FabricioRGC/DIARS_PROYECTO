@@ -6,12 +6,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DIARS_S8.Models
 {
-    [Table("Cliente")]
-    public class Cliente
+    [Table("Empleado")]
+    public class Empleado
     {
         [Key]
-        [Column("cliente_id")]
-        public int ClienteId { get; set; }
+        [Column("empleado_id")]
+        public int EmpleadoId { get; set; }
 
         [Required]
         [Column("usuario_id")]
@@ -26,21 +26,23 @@ namespace DIARS_S8.Models
         public string Nombres { get; set; }
 
         [Required]
-        [Column("dni_ruc")]
+        [Column("dni")]
         [StringLength(15)]
-        public string DniRuc { get; set; }
-
-        [Column("correo")]
-        [StringLength(255)]
-        public string Correo { get; set; }
+        public string Dni { get; set; }
 
         [Column("telefono")]
         [StringLength(20)]
         public string Telefono { get; set; }
 
-        [Column("fecha_registro")]
-        public DateTime FechaRegistro { get; set; } = DateTime.Now;
+        [Required]
+        [Column("cargo")]
+        [StringLength(50)]
+        public string Cargo { get; set; }
+
+        [Column("fecha_contrato")]
+        public DateTime FechaContrato { get; set; }
 
         public ICollection<Contrato> Contratos { get; set; } = new List<Contrato>();
+        public ICollection<PedidoInstalacion> PedidosInstalacion { get; set; } = new List<PedidoInstalacion>();
     }
 }
